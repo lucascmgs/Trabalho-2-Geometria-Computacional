@@ -15,9 +15,7 @@ def envolving_triangle(points_x, points_y):
     return left, right, top
 
 def triangulate(points, first_triangle):
-    triangle_tree_root = dt.TreeNode(first_triangle)
-    first_triangle.set_node(triangle_tree_root)
-
+    
     print (points)
     triangulation = set()
     triangulation.add(first_triangle)
@@ -26,11 +24,11 @@ def triangulate(points, first_triangle):
     for p in points:
         cont = cont+1
         print(f"iteração {cont}")
-        first_node = triangle_tree_root
-        target_node = first_node.find_triangle_with_point(p)
-        if target_node == None:
-            continue
-        target_triangle = target_node.triangle
+        target_triangle = None
+        for t in triangulation:
+            if(t.is_point_inside(p)):
+                target_triangle = t
+                break
         triangles_to_process = []
         marked_triangles = set()
 
@@ -75,8 +73,6 @@ def triangulate(points, first_triangle):
                 new_triangle = dt.Triangle([p, q, r])
             else:
                 new_triangle = dt.Triangle([p, r, q])
-            target_node.add_triangles(new_triangle)
-            father_triangle.tree_node.add_triangles(new_triangle)
 
             new_triangle.set_opposing_triangle(p, neighboor)
             

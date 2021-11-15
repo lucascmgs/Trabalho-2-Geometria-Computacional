@@ -11,7 +11,7 @@ def generate_random_values(numero_amostras, espalhamento):
         values.append([value])
     return values
 
-points_file = open('nuvem1.txt', 'r') 
+points_file = open('nuvem2.txt', 'r') 
 
 lines = points_file.readlines()
 
@@ -43,6 +43,8 @@ figure,axes = plt.subplots(1, 1)
 triangulation = delaunay.triangulate(points, first_triangle)
 
 for t in triangulation:
+    if t.has_point(first_triangle.a) or t.has_point(first_triangle.b) or t.has_point(first_triangle.c) :
+        continue
     axes.add_artist(t.to_plt_artist())
 
 axes.plot()

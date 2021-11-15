@@ -209,6 +209,7 @@ class Triangle:
 class TreeNode:
     def __init__(self, given_triangle) -> None:
         self.triangle = given_triangle
+        given_triangle.tree_node = self
         self.children = []
     
     def add_triangles(self, *triangles):
