@@ -26,18 +26,24 @@ for line in lines :
     y = float(elements[1])
     points_x.append([x])
     points_y.append([y])
-    points.append(dt.Point(x,y))
+    point = dt.Point(x,y)
+    points.append(point)
 
-points = random.shuffle(points)
+#random.shuffle(points)
 
-triangle = dt.Triangle(delaunay.envolving_triangle(points_x, points_y))
+first_triangle = dt.Triangle(delaunay.envolving_triangle(points_x, points_y))
 
-points = np.append(points, triangle.to_list())
+# points.append(first_triangle.a)
+# points.append(first_triangle.b)
+# points.append(first_triangle.c)
 
-print(triangle.to_list())
+
 figure,axes = plt.subplots(1, 1)
 
-axes.add_artist(triangle.to_plt_artist())
+triangulation = delaunay.triangulate(points, first_triangle)
+
+for t in triangulation:
+    axes.add_artist(t.to_plt_artist())
 
 axes.plot()
 
