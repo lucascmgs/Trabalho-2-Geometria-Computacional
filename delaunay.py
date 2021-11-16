@@ -43,7 +43,6 @@ def triangulate(points, first_triangle):
     cont = 0
     for p in points:
         cont = cont+1
-        print(f"iteração {cont}")
         target_triangle = None
         for t in triangulation:
             if(t.is_point_inside(p)):
