@@ -4,10 +4,31 @@ import numpy as np
 
 
 def envolving_triangle(points_x, points_y):
+    offset1 = 100
+    offset2 = 50
     min_x = np.amin(points_x)
     min_y = np.amin(points_y)
     max_x = np.amax(points_x)
     max_y = np.amax(points_y)
+
+    esq_inf = dt.Point(min_x - offset1, min_y - offset1)
+    dir_inf = dt.Point(max_x + offset1, min_y- offset1)
+    
+    esq_sup = dt.Point(min_x - offset2, max_y + offset1)
+    dir_sup = dt.Point(max_x + offset2, max_y + offset1)
+
+    esq_v = esq_sup - esq_inf
+    dir_v = dir_sup - dir_inf
+    
+    esq_v = esq_v.normalized()
+    dir_v = dir_v.normalized()
+
+
+    y = (esq_v.y*dir_v.y*(dir_inf.x-esq_inf.x)+esq_v.x*dir_v.y*esq_inf.y-(dir_v.x*esq_v.y*dir_inf.y))/(esq_v.x*dir_v.y-dir_v.x*esq_v.y)
+    x = esq_inf.x + (esq_v.x/esq_v.y)*(y - esq_inf.y)
+    sup = dt.Point(x, y)
+
+    return esq_inf, dir_inf, sup
 
     left = dt.Point(min_x-abs(min_x), min_y-abs(min_y))
     right = dt.Point(max_x+abs(max_x), min_y-abs(min_y))
@@ -22,7 +43,7 @@ def triangulate(points, first_triangle):
     cont = 0
     for p in points:
         cont = cont+1
-        #print(f"iteração {cont}")
+        print(f"iteração {cont}")
         target_triangle = None
         for t in triangulation:
             if(t.is_point_inside(p)):

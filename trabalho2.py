@@ -29,6 +29,7 @@ for line in lines :
     point = dt.Point(x,y)
     points.append(point)
 
+
 #random.shuffle(points)
 
 first_triangle = dt.Triangle(delaunay.envolving_triangle(points_x, points_y))
